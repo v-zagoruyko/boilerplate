@@ -1,0 +1,16 @@
+services:
+  web:
+    image: ${IMAGE}
+    restart: unless-stopped
+    mem_limit: 64m
+    networks: [proxy]
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hello.rule=Host(`xn----7sbblh9beecscegov.xn--p1ai`)
+      - traefik.http.routers.hello.entrypoints=websecure
+      - traefik.http.routers.hello.tls.certresolver=le
+      - traefik.http.services.hello.loadbalancer.server.port=80
+
+networks:
+  proxy:
+    external: true
